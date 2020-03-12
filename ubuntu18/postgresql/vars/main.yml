@@ -1,0 +1,32 @@
+---
+# vars file for postgresql
+#
+ # For postfixadmin
+  nameDB_postfixadmin: "postfixadmin"
+  userDB_postfixadmin: "postfixadmin"
+  passDB_postfixadmin: "Ubn24admin"
+  owner_db_postfixadmin: "postfixadmin"
+ # For roundcube
+  userDB_roundcube: "roundcube"
+  passDB_roundcube: "Ubn24admin"
+  nameDB_roundcube: "roundcube"
+  owner_db_roundcube: "roundcube"
+ # For spamassasin
+  userDB_spamassasin: "spam"
+  passDB_spamassasin: "Ubn24admin"
+  nameDB_spamassasin: "spam"
+  owner_db_spamd: "spam"
+
+
+  # Config postgresql.conf
+  pg_directory: "/var/lib/pgsql/data"
+  listen_addres_pg: "127.0.0.1"
+  pord_listen_dibo: "5432"
+  max_connection: "100"
+  ssl_on_off: "on"
+  ssl_ciphers: "HIGH:MEDIUM:+3DES:!aNULL"
+  ssl_dh_params_file: "ssl/dhparam.pem"
+  ssl_cert_file: "ssl/postgresql.crt"
+  ssl_key_file: "ssl/postgresql.key"
+  ssl_ca_file: "ssl/postgresql.ca.crt"
+

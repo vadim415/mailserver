@@ -1,0 +1,31 @@
+[ req ]
+default_bits = 2048
+encrypt_key = yes
+distinguished_name = req_dn
+x509_extensions = cert_type
+prompt = no
+
+[ req_dn ]
+# country (2 letter code)
+C=UA
+
+# State or Province Name (full name)
+ST=Odessa Oblast
+
+# Locality Name (eg. city)
+L=Odessa
+
+# Organization (eg. company)
+O=UBN
+
+# Organizational Unit Name (eg. section)
+OU=UBN
+
+# Common Name (*.example.com is also possible)
+CN=ubn24.org
+
+# E-mail contact
+emailAddress=support@ubn24.org
+
+[ cert_type ]
+nsCertType = server

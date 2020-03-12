@@ -1,0 +1,35 @@
+---
+# tasks file for service
+  - name: start,stop,restart,reload systemd_Units
+    systemd:
+      name: "{{ item.name }}"
+      state: "{{ item.state }}"
+      enabled: "{{ item.enabled }}"
+      daemon_reload: "{{ item.daemon_reload}}"
+    with_items:
+      - {name: "postgresql",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "php-fpm.service",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "dovecot",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "postfix",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "nginx",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "spamassassin.service",state: "restarted", enabled: "yes",daemon_reload: "yes"}
+      - {name: "saslauthd",state: "started", enabled: "yes",daemon_reload: "yes"}
+  #- name: start service clamd with amavisd connect to socket only
+  #  systemd:
+  #    name: "{{ item }}"
+  #    state: started
+  #    daemon_reload: yes
+  #    enabled: yes
+  #  with_items:
+  #    - 'clamd'
+  #- name: Start service system-clamd.slice
+  #  service:
+  #    name: system-clamd.slice
+  #    enabled: yes
+  #    state: started
+
+
+
+
+
+

@@ -1,0 +1,5 @@
+user = postfixadmin
+password = Ubn24admin
+hosts = 127.0.0.1
+dbname = postfixadmin
+query = SELECT maildir FROM mailbox WHERE username='%s' AND active = true 

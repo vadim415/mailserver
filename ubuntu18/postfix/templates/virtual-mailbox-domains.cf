@@ -1,0 +1,5 @@
+user = {{ DB_user }}
+password = {{ DB_pass }}
+hosts = {{ DB_hosts }}
+dbname = {{ DB_name }}
+query = SELECT domain FROM domain WHERE domain='%s' and backupmx = false and active = true

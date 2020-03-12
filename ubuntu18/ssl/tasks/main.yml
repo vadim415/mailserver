@@ -1,0 +1,36 @@
+---
+# tasks file for ssl
+  - name: create directory for ssl
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items:
+      - "{{ nginx_ssl }}"
+      - "{{ postfix_ssl }}"
+      - "{{ dovecot_ssl }}"
+  - name: Copy ssl_scripts to nginxr,postfix,dovecot
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}"
+      force: yes
+    with_items:
+      - { src: 'templates/{{ nginx_ssl_script_name }}',dest: '{{ nginx_ssl }}', mode: '600' }
+      - { src: 'templates/{{ postfix_ssl_script_name }}',dest: '{{ postfix_ssl }}', mode: '600' }
+      - { src: 'templates/mkcert.sh',dest: '{{ dovecot_ssl }}',mode: '600' }
+      - { src: 'templates/dovecot-openssl.cnf',dest: '{{ dovecot_ssl }}',mode: '600' }
+
+  - name: create cert. for nginx
+    become: yes
+    become_user: root
+    shell: "cd {{ nginx_ssl }} && sh {{ nginx_ssl_script_name }}"
+
+  #- name: create cert. for postfix
+   # become: yes
+   # become_user: root
+   # shell: "cd {{ postfix_ssl }} && sh {{ postfix_ssl_script_name }}"
+
+  - name: create cert. for dovecot
+    become: yes
+    become_user: root
+    shell: "cd {{ dovecot_ssl }} && sh mkcert.sh"

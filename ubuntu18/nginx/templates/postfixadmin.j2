@@ -1,0 +1,93 @@
+server {
+    listen {{ listen_port_postfixadmin }};
+    server_name {{ server_name_postfixadmin }};
+
+    return 301 https://$server_name$request_uri;
+}
+
+
+server {
+  listen 443 http2 ssl;
+  listen [::]:443 http2 ssl;      
+  root  {{ root_directory_postfixadmin }};
+  index index.php index.html index.htm;
+
+  error_log  {{ postfixadmin_error_log }};
+  access_log {{ postfixadmin_access_log }};
+
+  location / {
+    try_files $uri $uri/ /index.php;
+  }
+  
+   ssl_certificate {{ ssl_sertificate_crt }};
+   ssl_certificate_key {{ ssl_sertificate_key }};
+   ssl_dhparam {{ dhparam_ssl }};
+   ssl_session_cache shared:SSL:50m;
+       ssl_session_timeout 5m;
+       ssl_stapling on;
+       ssl_stapling_verify on;
+       add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+       server_tokens off;
+       ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+       ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+
+
+    location ~ \.php$ {
+    try_files $uri =404;
+    root {{ root_directory_postfixadmin }} ;
+    fastcgi_pass unix:/run/php-fpm/www.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+
+  location ~ /.well-known/acme-challenge {
+    allow all;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

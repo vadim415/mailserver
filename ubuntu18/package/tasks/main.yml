@@ -1,0 +1,106 @@
+---
+# - name: copy files repositories
+#    shell: 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list'
+  - name: ensure wget is not installed
+    apt:
+      pkg:
+      - wget
+      - gnupg
+      - gnupg1
+      - gnupg2
+  - name: add key use module command
+    shell: "wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc |  apt-key add -  "
+  - name: shell add key
+    shell: "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8 && apt update"
+  - name: copy files repositories
+    shell: 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list'
+  - name: Add PHP 7 PPA repository
+    become: true
+    apt_repository:
+      repo: 'ppa:ondrej/php'
+
+  - name: update all packages installed on the system
+    apt:
+      name: "*"
+      state: latest
+      force_apt_get: true
+      update_cache: true
+    become: true
+  - name: install package on Debian based distros 
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+    become: true
+    loop:
+      - libpq-dev
+      - python3-pip
+      - software-properties-common
+      - postfix 
+      - dovecot-core
+      - dovecot-managesieved
+      - dovecot-pgsql 
+      - dovecot-sieve 
+      - phamm 
+      - vmm-doc
+      - vmm 
+      - dovecot-antispam 
+      - dovecot-dev 
+      - dovecot-imapd
+      - dovecot-ldap 
+      - dovecot-lmtpd
+      - dovecot-pop3d
+      - spfquery 
+      - spamass-milter
+      - pmailq
+      - php7.4 
+      - php7.4-cli 
+      - php7.4-common
+      - php-cli 
+      - php7.4-mbstring
+      - php7.4-imap
+      - php7.4-zip
+      - php7.4-xml
+      - php7.4-soap
+      - php7.4-pgsql
+      - php7.4-json
+      - php7.4-bcmath
+      - php7.4-bz2
+      - php7.4-cgi
+      - php7.4-curl
+      - php7.4-dba
+      - php7.4-dev
+      - php7.4-fpm
+      - postgresql-10
+      - wget
+      - curl
+      - dnsutils
+      - telnet
+      - git
+      - net-tools
+      - vim
+      - tcpdump
+      - screen
+      - iftop
+      - sysstat
+      - amavisd-new
+      - spamassassin 
+      - clamav-daemon
+      - opendkim 
+      - postfix-policyd-spf-python
+      - pyzor 
+      - razor
+  
+  - name: dissable apache2
+    shell: "systemctl disable --now apache2 && remove --purge apache2 "
+    ignore_errors: yes
+  - pip:
+      name: Psycopg2
+
+  - name: ensure nginx is not installed
+    apt:
+      pkg:
+      - nginx
+
+
+

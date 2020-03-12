@@ -1,0 +1,34 @@
+---
+# Config files to nginx
+  - name: Copy config files nginx.j2,postfixadmin.j2,roundcube.j2
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      mode: "{{ item.mode }}"
+      force: yes
+    with_items:
+      - { src: 'templates/nginx.j2',dest: '/etc/nginx/nginx.conf',mode: ''}
+      - { src: 'templates/postfixadmin.j2',dest: '/etc/nginx/conf.d/postfixadmin.conf',owner: 'nginx',group: 'nginx',mode: '' }
+  
+  - name: delete /etc/nginx/nginx.conf.default
+    file:
+      path: /etc/nginx/nginx.conf.default
+      state: absent
+  #- name: copy php7 config to /etc/php-fpm.d/www.conf
+  #  copy:
+  #    src: templates/www.conf
+  #    dest: /etc/php-fpm.d/www.conf
+  #    force: yes
+
+  #- name: chown to files for save php-fpm sessions 
+  #  file: 
+  #    path: "/var/lib/php/{{ item }}"
+  #    owner: nginx
+  #    group: nginx
+  #    mode: 0775
+  #    recurse: yes 
+  #  with_items:
+  #    - 'opcache/'
+  #    - 'session/'
+  #    - 'wsdlcache/'
+

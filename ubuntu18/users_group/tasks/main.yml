@@ -1,0 +1,27 @@
+---
+# tasks file for users_group
+  - name: set fqdn hostname
+    hostname:
+      name: "{{ hostname }}"
+
+  - name: Create groups for groups
+    group:
+      name: "{{ item.name }}"
+      state: present
+      gid: "{{ item.gid }}"
+    with_items:
+     - { name: "{{ user_spamd }}",gid: "{{ id_spamd }}" }
+     - { name: "{{ user_vmail }}",gid: "{{ id_vmail }}" }
+
+  - name: Create user and add to groups see item
+    user:
+      name: "{{ item.name }}"
+      shell: /usr/bin/false
+      comment: "{{ item.comment }}"
+      uid: "{{ item.uid }}"
+      home: "{{ item.home }}"
+      groups:  "{{ item.groups }}"
+      append: yes
+    with_items:
+      - { name: "{{ user_spamd }}",comment: "user {{ user_spamd }}",uid: "{{ id_spamd }}",home: "{{ dir_spamd }}",groups: "{{ group_spamd }}" }
+      - { name: "{{ user_vmail }}",comment: "user {{ user_vmail }}",uid: "{{ id_vmail }}",home: "{{ dir_vmail }}",groups: "{{ group_vmail }}" }

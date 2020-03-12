@@ -1,0 +1,18 @@
+---
+- hosts: master
+  become: yes
+  remote_user: root
+  become_method: su
+  vars_files:
+    - vars/vars.yml
+
+  roles:
+    #- { role: package }
+    #- { role: users_group }
+    #- { role: ssl }
+    #- { role: postgresql }
+    - { role: postfix }
+    - { role: dovecot }
+    - { role: nginx }
+    - { role: postfixadmin }
+    

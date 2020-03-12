@@ -1,0 +1,95 @@
+---
+
+  # vars for users
+  hostname: "mail2.ubn24.net"
+  user_spamd: "spamd"
+  id_spamd: "3000"
+  group_spamd: "spamd"
+  dir_spamd: "/var/log/spamassassin"
+  user_vmail: "vmail"
+  id_vmail: "5000"
+  group_vmail: "vmail"
+  dir_vmail: "/var/vmail"
+
+
+  # vars file for ssl
+  # Directory for save ssl sert
+  nginx_ssl: "/etc/nginx/ssl"
+  nginx_ssl_script_name: "generate_ssl_for_nginx.sh"
+#Scripts will be copied to directories but not running, you need to convert
+  postfix_ssl: "/etc/postfix/ssl"
+  dovecot_ssl: "/etc/dovecot/ssl"
+
+  postfix_ssl_script_name: "generate_ssl_for_postfix.sh"
+  dovecot_ssl_script_name: "generate_ssl_for_dovecot.sh"
+
+
+
+  # vars file for nginx
+  #vars for postfixadmin
+  postfixadmin_download_url: "https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.2.2.tar.gz"
+  listen_port_postfixadmin: "80"
+  server_name_postfixadmin: "10.0.30.117"
+  root_directory_postfixadmin: "/var/www/postfixadmin/public"
+  postfixadmin_error_log: "/var/log/nginx/postfixadmin.error.log"
+  postfixadmin_access_log: "/var/log/nginx/postfixadmin.access.log"
+
+  #about  postfixadmin
+  ssl_sertificate_crt: "/etc/nginx/ssl/nginx.crt"
+  ssl_sertificate_key: "/etc/nginx/ssl/nginx.key"
+  dhparam_ssl: "/etc/nginx/ssl/dhparam.pem"
+
+# vars file for postfix
+  #destination
+  hostname: "mail2.ubn24.net"
+  my_domain: "ubn24.org"
+  #hostname=hostname: "mail2.ubn24.net"
+  inet_interfaces: "all"
+  inet_protocols: "ipv4"
+
+  mail_home: "/var/vmail"
+  mail_plugins: "quota"
+  mail_plugins_group: "vmail"
+  mail_uid: "5000"
+  mail_gid: "5000"
+  myhostname_postfix: "mail.ubn24admin.me"
+  inet_interfaces: "all"
+  inet_protocols: "ipv4"
+
+
+  # vars file for postgresql
+
+  data_directory: "/etc/postgresql/10/main/"
+  pg_ssl_directory: "/etc/postgresql/10/main/ssl"
+  pg_role_attr_flags: "NOCREATEDB,NOSUPERUSER,NOCREATEROLE,NOREPLICATION,LOGIN"
+  hosts: "127.0.0.1"
+ # For postfixadmin
+  #full config for mail_server connect to postgresql
+  #full config for sasl server connect to db
+  #
+  DB_user: "postfix"
+  DB_pass: "koo7Quaeth"
+  DB_hosts: "127.0.0.1"
+  DB_name: "db_postfix"
+
+
+
+
+ # For spamassasin
+  userDB_spamassasin: "spam"
+  passDB_spamassasin: "Ias21)73nmapjqR3Bzp"
+  nameDB_spamassasin: "spam"
+  owner_db_spamd: "spam"
+
+
+  # Config postgresql.conf
+  listen_addres_pg: "127.0.0.1"
+  pord_listen_dibo: "5432"
+  max_connection: "100"
+  ssl_on_off: "on"
+  ssl_ciphers: "HIGH:MEDIUM:+3DES:!aNULL"
+  ssl_dh_params_file: "ssl/dhparam.pem"
+  ssl_cert_file: "ssl/postgresql.crt"
+  ssl_key_file: "ssl/postgresql.key"
+  ssl_ca_file: "ssl/postgresql.ca.crt"
+

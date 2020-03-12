@@ -1,0 +1,10 @@
+---
+# vars file for users_group
+  hostname_set: "mail.ubn24admin.me"
+  host_ip_set_etc_hosts: "10.0.30.131 mail.ubn24admin.me"
+  group_vmail: "vmail"
+  user_to_dovecot: "vmail"
+  create_group_spamd: "spamd"
+  users_for_spamd: "spamd"
+  directories_for_spamd: "/var/log/spamassassin"
+  directories_for_vmail: "/var/vmail"

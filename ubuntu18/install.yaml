@@ -1,0 +1,66 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: copy files repositories
+    copy:
+      src: files/pg_hba.conf
+      dest: /etc/postgresql/11/main/pg_hba.conf
+  - name: ensure wget is not installed
+    apt:
+      name: wget
+      state: latest
+    become: true
+  - name: add key use module command
+    command: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+  - name: install package on Debian based distros 
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: true
+    become: true
+    loop:
+      - postfix 
+      - dovecot-core
+      - dovecot-managesieved
+      - dovecot-pgsql 
+      - dovecot-sieve 
+      - phamm 
+      - vmm-doc
+      - vmm 
+      - dovecot-antispam 
+      - dovecot-dev 
+      - dovecot-imapd
+      - dovecot-ldap 
+      - dovecot-lmtpd
+      - dovecot-pop3d
+      - amavisd-milter 
+      - amavisd-milter-dbg 
+      - amavisd-new 
+      - amavisd-new-postfix
+      - spfquery 
+      - spamass-milter
+      - pmailq
+      - php7.4 
+      - php7.4-cli 
+      - php7.4-common
+      - php-cli 
+      - php7.4-mbstring
+      - php7.4-imap
+      - postgresql-11
+      - wget
+      - curl
+      - netstat
+      - dnsutils
+      - telnet
+      - git
+      - net-tools
+      - vim
+      - tcpdump
+      - screen
+      - iftop
+      - sysstat
+
+
+

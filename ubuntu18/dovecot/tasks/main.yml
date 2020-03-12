@@ -1,0 +1,50 @@
+---
+# Config for dovecot
+  - name: copy files tio dovecot/conf.d 
+    template:
+      src: templates/{{ item }}
+      dest: /etc/dovecot/conf.d/ 
+      force: yes
+    with_items:
+      - 10-auth.conf
+      - 10-director.conf
+      - 10-logging.conf
+      - 10-mail.conf
+      - 10-master.conf
+      - 15-lda.conf
+      - 15-mailboxes.conf
+      - 20-imap.conf
+      - 20-lmtp.conf
+      - 20-pop3.conf
+      - 90-acl.conf
+      - 90-plugin.conf
+      - 90-quota.conf
+      - auth-checkpassword.conf.ext
+      - auth-deny.conf.ext
+      - auth-dict.conf.ext
+      - auth-ldap.conf.ext
+      - auth-master.conf.ext
+      - auth-passwdfile.conf.ext
+      - auth-sql.conf.ext
+      - auth-static.conf.ext
+      - auth-system.conf.ext
+      - auth-vpopmail.conf.ext
+  - name: copy config files sql connect for databases
+    template:
+      src: templates/dovecot/{{ item }}
+      dest: /etc/dovecot/
+      force: yes
+    with_items:
+      - dovecot-sql.conf.ext
+      - dovecot.conf
+  - name: Create log files / and chown user vmail
+    file: 
+      path: "{{ item }}"
+      state: touch
+      #mode: 0775
+      owner: "{{ user_vmail }}"
+      group: "{{ user_vmail }}"
+    with_items:
+      - /var/log/dovecot-debug.log
+      - /var/log/dovecot-info.log
+      - /var/log/dovecot.log

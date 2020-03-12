@@ -1,0 +1,5 @@
+user = postfixadmin
+password = Ubn24admin
+hosts = 127.0.0.1
+dbname = postfixadmin
+query = SELECT goto FROM alias WHERE address='%s' AND active = true 

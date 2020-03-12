@@ -1,0 +1,23 @@
+---
+#Config for postfix
+  - name: copy files to postfix
+    template:
+      src: templates/{{ item }}
+      dest: /etc/postfix/
+      force: yes
+    with_items:
+      - main.cf
+      - master.cf
+  - name: Create direcories
+    file:
+      path: /etc/postfix/pgsql
+      state: directory
+  - name: copy files to postfix
+    template:
+      src: templates/{{ item }}
+      dest: /etc/postfix/pgsql
+      force: yes
+    with_items:
+      - virtual-mailbox-maps.cf
+      - virtual-mailbox-domains.cf
+      - virtual-alias-maps.cf

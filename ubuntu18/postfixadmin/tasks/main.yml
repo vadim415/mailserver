@@ -1,0 +1,29 @@
+---
+  - name: Unarchive postfixadmin to /var/www/html
+    unarchive:
+      src: "{{ postfixadmin_download_url }}" 
+      dest: /var/www/html
+      remote_src: yes
+  - name: mv command
+    command: mv /var/www/html/postfixadmin-postfixadmin-3.2.2 /var/www/postfixadmin
+    
+  - name: change permissions for postfixadmin directory
+    file:
+      path: /var/www/postfixadmin
+      owner: www-data
+      group: www-data
+      recurse: yes
+
+  - name: create templete_c direcories
+    file:
+      path: /var/www/postfixadmin/templates_c
+      state: directory
+      owner: www-data
+      group: www-data
+  - name: copy files to postfixadmin config file
+    template:
+      src: files/config.local.php
+      dest: /var/www/postfixadmin
+      force: yes 
+      owner: www-data
+      group: www-data

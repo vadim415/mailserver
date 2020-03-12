@@ -1,0 +1,7 @@
+driver = pgsql
+connect = host=127.0.0.1 dbname=postfixadmin user=postfixadmin password=Ubn24admin
+default_pass_scheme = MD5-CRYPT
+user_query = SELECT '/home/vmail/' || maildir AS home, 5000 as uid, 5000 as gid FROM mailbox WHERE username = '%u' AND  active = '1'
+password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
+
+

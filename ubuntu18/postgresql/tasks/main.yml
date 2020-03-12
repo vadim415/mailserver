@@ -1,0 +1,71 @@
+---
+  - name: Create directories for ssl certificate
+    file: 
+      path: "/etc/postgresql/10/main/ssl" 
+      state: directory
+      owner: postgres
+      group: postgres
+  - name: Copy config files pg_hba.conf,postgresql.j2,script_postgres_ssl.sh
+    template:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      force: "{{ item.force }}"
+    with_items:
+      - { src: 'templates/pg_hba.conf',dest: '/etc/postgresql/10/main/pg_hba.conf', force: 'yes'}
+      - { src: 'templates/postgresql11.j2',dest: '/etc/postgresql/10/main/postgresql.conf', force: 'yes'}
+      - { src: 'templates/script_postgres_ssl.sh',dest: '/etc/postgresql/10/main/ssl', force: 'yes'}
+  - name: create cert. for nginx
+    become: yes
+    become_user: root
+    shell: "cd /etc/postgresql/10/main/ssl && sh script_postgres_ssl.sh"
+  - name: chown to files
+    file:
+      path: "{{ data_directory }}/{{ ssl_key_file }}"
+      owner: postgres
+      group: postgres
+      mode: 0600
+  - name: start postgresql 
+    systemd:
+      name: postgresql.service
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  - name: Create user for postfixadmin service
+    postgresql_user:
+      name: "{{ DB_user }}"
+      password: "{{ DB_pass }}"
+      role_attr_flags: "{{ pg_role_attr_flags }}"
+    become: yes
+    become_user: postgres
+
+  - name: create db postfixadmin
+    postgresql_db:
+      name: "{{ DB_name }}"
+      encoding: UTF-8
+      lc_collate: en_US.UTF-8
+      lc_ctype: en_US.UTF-8
+      template: template0
+      owner: "{{ DB_user }}"
+    become: yes
+    become_user: postgres
+
+  - name: Create user for spam service
+    postgresql_user:
+      name: "{{ userDB_spamassasin }}"
+      password: "{{ passDB_spamassasin }}"
+      role_attr_flags: "{{ pg_role_attr_flags }}"
+    become: yes
+    become_user: postgres
+
+  - name: create db spam
+    postgresql_db:
+      name: "{{ nameDB_spamassasin }}"
+      encoding: UTF-8
+      lc_collate: en_US.UTF-8
+      lc_ctype: en_US.UTF-8
+      template: template0
+      owner: "{{ owner_db_spamd }}"
+    become: yes
+    become_user: postgres
+
